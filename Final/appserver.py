@@ -25,8 +25,7 @@ from models import User
 
 @app.before_request
 def login_check():
-	#redirect till main until we create the react pages
-	return redirect(url_for('main'))
+	return render_template('site.html')
 
 @app.route('/')
 def index():
@@ -34,27 +33,30 @@ def index():
 
 @app.route('/main/', methods=['GET'])
 def main():
-	return I am Main
+	#present all HPC info to user
+	return 'yo work'
 
-@app.route('/login/', methods=['GET'])
+@app.route('/login/', methods=['GET, POST'])
 def login_form():
-	pass
+	if request.method == 'GET':
+		#get user login then call main
+		return render_template('login.html')
 
 def login():
 	pass
 
 @app.route('/logout/', methods=['GET'])
 def logout():
-	pass
+	return 'logout'
 
 @app.route('/profile/', methods=['POST'])
 def create_profile():
-	pass
+	return 'create profile'
 
 @app.route('/status/', methods=['GET'])
 def show_HPC_status():
 	#showing status of HPC computers
 	#should probably handle the reservation requests as well
-	pass
+	return 'HPC status'
 
 

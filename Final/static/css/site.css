@@ -1,0 +1,32 @@
+
+<style>
+
+body {
+  font-family: fantasy
+  margin: 0;
+  }
+
+.content {
+  max-width: 500px;
+  margin: auto;
+  }
+
+.header{
+  padding: 80px;
+  text-align: center;
+  background: #282828;
+  color: white;
+  font-size 30px
+  }
+
+
+
+</style>
+<body>
+
+<div class="header">
+  <h1> HPC COMPUTER STATUS </h1>
+
+</div>
+
+</body>
