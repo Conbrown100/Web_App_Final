@@ -1,54 +1,78 @@
+
 <!doctype html>
-  
+
+
+
+<style>
+
+body {
+  font-family: fantasy
+  margin: 0;
+  }
+
+.content {
+  max-width: 500px;
+  text-align: center;
+  margin: auto;
+  font-size: 20px;
+  }
+
+.header{
+  padding: 80px;
+  text-align: center;
+  background: #282828;
+  color: white;
+  font-size: 30px;
+  border: 3px;
+  }
+
+
+
+</style>
+
 <html>
 
-  <head>
-    {% block head %}
-    <title>Meowzers - {% block title %}{% endblock %}</title>
-    
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<head>
 
-    <link href="{{ url_for('static', filename='css/site.css') }}" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    {% endblock %}
-  </head>
+  <!-- UNCOMMENT FOR INCLUDING CUSTOM CSS
+  <link href="css/site.css" rel="stylesheet"></link>
+  -->
 
-  <body>
-    <!-- <h1>TITLE HERE</h1> -->
+</head>
 
-    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">Meowzers</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<body>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href= {{ url_for("main") }}>Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href={{ url_for("my_profile") }}>Profile</a>
-          </li>
+	
+<div class="header">
+  <h1> HPC COMPUTER STATUS </h1>
 
-          <li class="nav-item">
-            <a class="nav-link" href= {{ url_for("logout") }}>Logout</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
 
-    <div id='main-content'>
-      {% block content %}
-      {% endblock %}
+  <div id="login"></div>
+
+    <div class='content'>
+	<p> this is where the computers will go <p>
+	<p>||<p>
+	<p>||<p>
+	<p>||<p>
+	<p>||<p>
+	<p>\/<p>
+	<p>Jim and Quinn<p>
+	<p> Eat Peen <p>
     </div>
 
-    {% block scripts %}
-    <script src='https://code.jquery.com/jquery-3.5.1.min.js'>
-    </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-   <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' integrity='sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o' crossorigin='anonymous'></script>
-    {% endblock %}
-  </body>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+  <script type="text/babel" src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+</body>
 
 </html>

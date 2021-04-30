@@ -25,8 +25,7 @@ from models import User
 
 @app.before_request
 def login_check():
-	#redirect till main until we create the react pages
-	return redirect(url_for('main'))
+	return render_template('site.html')
 
 @app.route('/')
 def index():
@@ -34,27 +33,32 @@ def index():
 
 @app.route('/main/', methods=['GET'])
 def main():
-	return I am Main
+	#present all HPC info to user
+	return 'yo work'
 
-@app.route('/login/', methods=['GET'])
-def login_form():
-	pass
+def validate(d, keys):
+	for k in keys:
+		if k not in d:
+			raise Exception('{} does not contain key "{}"'.format(d,k))
 
-def login():
-	pass
+@app.route('/api/login/', methods=['POST'])
+def api_login():
+	try:
+		print(request.form)
+		validate(request.form, ['username', 'password'])
+		u, p = request.form['username'], request.form['password']
+		if u == 'conner' and p == 'b':
+			session['username'] = u
+			return 'ok'
+		else:
+			return 'fail'	
+	except Exception as e:
+		return str(e), 400
 
-@app.route('/logout/', methods=['GET'])
-def logout():
-	pass
-
-@app.route('/profile/', methods=['POST'])
-def create_profile():
-	pass
-
-@app.route('/status/', methods=['GET'])
-def show_HPC_status():
-	#showing status of HPC computers
-	#should probably handle the reservation requests as well
-	pass
-
-
+@app.route('/api/users/', methods=['GET'])
+def api_users():
+	try: 
+		validate(session, ['username'])
+		return jsonify(['This does in fact work this way'])
+	except Exception as e:
+		return 'Not authd', 403
