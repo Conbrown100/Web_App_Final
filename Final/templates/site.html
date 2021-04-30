@@ -1,6 +1,6 @@
+
 <!doctype html>
-  
-<html>
+
 
 
 <style>
@@ -29,24 +29,27 @@ body {
 
 
 </style>
+
+<html>
+
+<head>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- UNCOMMENT FOR INCLUDING CUSTOM CSS
+  <link href="css/site.css" rel="stylesheet"></link>
+  -->
+
+</head>
+
 <body>
 
-
-  <head>
-    {% block head %}
-    
+	
 <div class="header">
   <h1> HPC COMPUTER STATUS </h1>
 
-</div>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link href="{{ url_for('static', filename='css/site.css') }}" rel="stylesheet">
-
-    {% endblock %}
-  </head>
-
-  <body>
+  <div id="login"></div>
 
     <div class='content'>
 	<p> this is where the computers will go <p>
@@ -55,16 +58,21 @@ body {
 	<p>||<p>
 	<p>||<p>
 	<p>\/<p>
-      {% block content %}
-      {% endblock %}
+	<p>Jim and Quinn<p>
+	<p> Eat Peen <p>
     </div>
 
-    {% block scripts %}
-    <script src='https://code.jquery.com/jquery-3.5.1.min.js'>
-    </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-   <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' integrity='sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o' crossorigin='anonymous'></script>
-    {% endblock %}
-  </body>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+  <script type="text/babel" src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+</body>
 
 </html>

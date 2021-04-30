@@ -36,27 +36,29 @@ def main():
 	#present all HPC info to user
 	return 'yo work'
 
-@app.route('/login/', methods=['GET, POST'])
-def login_form():
-	if request.method == 'GET':
-		#get user login then call main
-		return render_template('login.html')
+def validate(d, keys):
+	for k in keys:
+		if k not in d:
+			raise Exception('{} does not contain key "{}"'.format(d,k))
 
-def login():
-	pass
+@app.route('/api/login/', methods=['POST'])
+def api_login():
+	try:
+		print(request.form)
+		validate(request.form, ['username', 'password'])
+		u, p = request.form['username'], request.form['password']
+		if u == 'conner' and p == 'b':
+			session['username'] = u
+			return 'ok'
+		else:
+			return 'fail'	
+	except Exception as e:
+		return str(e), 400
 
-@app.route('/logout/', methods=['GET'])
-def logout():
-	return 'logout'
-
-@app.route('/profile/', methods=['POST'])
-def create_profile():
-	return 'create profile'
-
-@app.route('/status/', methods=['GET'])
-def show_HPC_status():
-	#showing status of HPC computers
-	#should probably handle the reservation requests as well
-	return 'HPC status'
-
-
+@app.route('/api/users/', methods=['GET'])
+def api_users():
+	try: 
+		validate(session, ['username'])
+		return jsonify(['This does in fact work this way'])
+	except Exception as e:
+		return 'Not authd', 403
