@@ -31,12 +31,6 @@ def main():
 	#present all HPC info to user
 	return 'yo work'
 
-
-@app.route('/api/register/', methods=['POST'])
-def api_register():
-	#this is where all the database shit will take place
-	pass
-
 @app.route('/api/login/', methods=['POST'])
 def api_login():
     try:
@@ -51,10 +45,19 @@ def api_login():
     except Exception as e:
         return str(e), 400
 
-@app.route('/api/users/', methods=['GET'])
-def api_users():
-	try: 
-		validate(session, ['username'])
-		return jsonify(['This does in fact work this way'])
-	except Exception as e:
-		return 'Not authd', 403
+
+
+@app.route('/api/register/', methods=['POST'])
+def api_register():
+	#this is where all the database shit will take place
+	pass
+
+@app.route('/api/home/', methods=['GET'])
+def api_home():
+    try:
+        validate(session, ['username'])
+        return jsonify(['Peter eater', 'gooch goblin'])
+    except Exception as e:
+        return 'Not authenicated', 403
+
+

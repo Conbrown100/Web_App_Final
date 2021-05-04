@@ -40,18 +40,12 @@ class Register extends React.Component {
 				}}>Register</button>
 				<button id="login-button" onClick={ (evt) => {
 					evt.preventDefault();
-<<<<<<< HEAD
 					this.sendLoginRequest();
 				}}>Login</button>
-=======
-					//Need to finish button
-					this.sendLoginRequest();
-					
->>>>>>> 1fe7012fa858f031976406f215d0fa59c6a3e31d
-			</form>
 
-				
+		);			
 	}
+}
 
 
 
@@ -73,7 +67,7 @@ class Login extends React.Component {
 			},
 			(error) => {
 				alert('General login error');
-			};
+			}
 		);
 	}
 
@@ -96,7 +90,11 @@ class Login extends React.Component {
 					this.sendLoginRequest();
 				}}>Login</button>
 			</form>
+		);
 	}
+}
+
+class home extends React.Component {}
 
 
 class App extends React.Component {
@@ -111,11 +109,11 @@ class App extends React.Component {
 			view: 'home'
 		});
 
-}
+	}
 
 	render(){
 		let component = <Login onLogin={ () => this.onLogin() } />;
-		if (this.state.view =='home'){
+		if (this.state.view == 'home'){
 			component = <Home />;
 		}
 
@@ -124,7 +122,8 @@ class App extends React.Component {
 				{component}
 			</div>
 
-
+		);
 	}
+}
 
-ReactDOM.render(<App />, document.querySelector('#content'));
+ReactDOM.render(<App />, document.querySelector('#login'));
