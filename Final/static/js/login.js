@@ -1,14 +1,14 @@
 class Register extends React.Component {
-	sendRegisterRequest(){
+	sendRegisterRequest() {
 		let formData = new FormData(document.getElementById('register-form'));
-		fetch('/api/register',{
+		fetch('/api/register', {
 			method: 'POST',
 			body: formData
 		})
 		.then(result => result.text())
 		.then(
 			(result) =>{
-				if (result == 'ok'){
+				if (result == 'ok') {
 					this.props.onRegister();
 				} else {
 					alert('Username already exists.');
@@ -42,17 +42,16 @@ class Register extends React.Component {
 					evt.preventDefault();
 					this.sendLoginRequest();
 				}}>Login</button>
+			</form>
 
 		);			
 	}
 }
 
-
-
 class Login extends React.Component {
-	sendLoginRequest(){
+	sendLoginRequest() {
 		let formData = new FormData(document.getElementById('login-form'));
-		fetch('/api/login',{
+		fetch('/api/login', {
 			method: 'POST',
 			body: formData
 		})
@@ -76,7 +75,7 @@ class Login extends React.Component {
 			<form id="login-form">
 				<input 
 				 type="text"
-				 name= "username"
+				 name="username"
 				 id="username"
 				 placeholder="username" />
 				<input
@@ -94,11 +93,10 @@ class Login extends React.Component {
 	}
 }
 
-class home extends React.Component {}
 
 
 class App extends React.Component {
-	contructor(props){
+	constructor(props){
 		super(props);
 		this.state = {
 			view: 'login'
