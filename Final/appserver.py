@@ -17,12 +17,6 @@ db = SQLAlchemy(app)
 from models import User
 
 
-
-
-
-
-
-
 @app.before_request
 def login_check():
 	return render_template('site.html')
