@@ -33,6 +33,12 @@ def main():
 
 @app.route('/api/login/', methods=['POST'])
 def api_login():
+	
+	#profile = Profile.query.filter_by(username.request.form['username']).first()
+	
+	#if profile and profile.password == request.form['password']:
+	#	session['id'] = profile.id
+	#	return 'ok'
     try:
         print(request.form)
         validate(request.form, ['username', 'password'])
@@ -50,7 +56,19 @@ def api_login():
 @app.route('/api/register/', methods=['POST'])
 def api_register():
 	#this is where all the database shit will take place
-	pass
+	username = request.form['username']
+	password = request.form['password']
+	email = request.form['email']
+	
+	if username == '' or password == '' or email == '':
+		return 'fail'
+	if db.session.query(Profile.id).filter_by(username=username).first() is not None:
+		return 'fail'
+	else:
+		profile = Profile(username=username, password=password, email=email)
+		db.session.add(profile)
+		db.session.commit()
+		return 'ok'
 
 @app.route('/api/home/', methods=['GET'])
 def api_home():
