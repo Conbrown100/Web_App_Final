@@ -16,7 +16,7 @@ class Register extends React.Component {
 			},
 			(error) => {
 				alert('General register error');
-			};
+			}
 		);
 	}
 
