@@ -41,6 +41,7 @@ class register extends React.Component {
 				<button id="login-button" onClick={ (evt) => {
 					evt.preventDefault();
 					//Need to finish button
+					this.sendLoginRequest();
 					
 			</form>
 
