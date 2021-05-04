@@ -1,3 +1,56 @@
+class Login extends React.Component {
+	sendLoginRequest() {
+		let formData = new FormData(document.getElementById('login-form'));
+		fetch('/api/login', {
+			method: 'POST',
+			body: formData
+		})
+		.then(result => result.text())
+		.then(
+			(result) =>{
+				if (result == 'ok'){
+					this.props.onLogin();
+				} else {
+					alert('Incorrect username/password.');
+				}
+			},
+			(error) => {
+				alert('General login error');
+			}
+		);
+	}
+
+	sendToRegister(){
+		this.props.OnRegister();
+	}	
+
+	render() {
+		return (
+			<form id="login-form">
+				<input 
+				 type="text"
+				 name="username"
+				 id="username"
+				 placeholder="username" />
+				<input
+				 type="password"
+				 name="password"
+				 id="password"
+				 placeholder="password" />
+				<br />
+				<button id="login-button" onClick={(evt) => {
+					evt.preventDefault();
+					this.sendLoginRequest();
+				}}>Login</button>
+				<button id="register-button" onClick={{ (evt) => {
+					evt.preventDefault();
+					this.sendToRegister();
+				}}>Register</button>
+			</form>
+		);
+	}
+}
+
 class Register extends React.Component {
 	sendRegisterRequest() {
 		let formData = new FormData(document.getElementById('register-form'));
@@ -38,58 +91,9 @@ class Register extends React.Component {
 					evt.preventDefault();
 					this.sendRegisterRequest();
 				}}>Register</button>
-				<button id="login-button" onClick={ (evt) => {
-					evt.preventDefault();
-					this.sendLoginRequest();
-				}}>Login</button>
 			</form>
 
 		);			
-	}
-}
-
-class Login extends React.Component {
-	sendLoginRequest() {
-		let formData = new FormData(document.getElementById('login-form'));
-		fetch('/api/login', {
-			method: 'POST',
-			body: formData
-		})
-		.then(result => result.text())
-		.then(
-			(result) =>{
-				if (result == 'ok'){
-					this.props.onLogin();
-				} else {
-					alert('Incorrect username/password.');
-				}
-			},
-			(error) => {
-				alert('General login error');
-			}
-		);
-	}
-
-	render() {
-		return (
-			<form id="login-form">
-				<input 
-				 type="text"
-				 name="username"
-				 id="username"
-				 placeholder="username" />
-				<input
-				 type="password"
-				 name="password"
-				 id="password"
-				 placeholder="password" />
-				<br />
-				<button id="login-button" onClick={(evt) => {
-					evt.preventDefault();
-					this.sendLoginRequest();
-				}}>Login</button>
-			</form>
-		);
 	}
 }
 
