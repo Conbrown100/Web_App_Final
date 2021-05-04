@@ -1,4 +1,4 @@
-class register extends React.Component {
+class Register extends React.Component {
 	sendRegisterRequest(){
 		let formData = new FormData(document.getElementById('register-form'));
 		fetch('/api/register',{
@@ -40,17 +40,22 @@ class register extends React.Component {
 				}}>Register</button>
 				<button id="login-button" onClick={ (evt) => {
 					evt.preventDefault();
+<<<<<<< HEAD
+					this.sendLoginRequest();
+				}}>Login</button>
+=======
 					//Need to finish button
 					this.sendLoginRequest();
 					
+>>>>>>> 1fe7012fa858f031976406f215d0fa59c6a3e31d
 			</form>
 
-				}}
+				
 	}
 
 
 
-class login extends React.Component {
+class Login extends React.Component {
 	sendLoginRequest(){
 		let formData = new FormData(document.getElementById('login-form'));
 		fetch('/api/login',{
@@ -94,8 +99,32 @@ class login extends React.Component {
 	}
 
 
-class home extends React.Component {
-	render(){
-	//eat weiners here 
+class App extends React.Component {
+	contructor(props){
+		super(props);
+		this.state = {
+			view: 'login'
+		};
 	}
+	onLogin(){
+		this.setState({
+			view: 'home'
+		});
+
 }
+
+	render(){
+		let component = <Login onLogin={ () => this.onLogin() } />;
+		if (this.state.view =='home'){
+			component = <Home />;
+		}
+
+		return(
+			<div className="app">
+				{component}
+			</div>
+
+
+	}
+
+ReactDOM.render(<App />, document.querySelector('#content'));
