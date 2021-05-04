@@ -95,6 +95,6 @@ class login extends React.Component {
 
 class home extends React.Component {
 	render(){
-	
+	//eat weiners here 
 	}
 }

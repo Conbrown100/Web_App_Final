@@ -41,8 +41,15 @@ def validate(d, keys):
 		if k not in d:
 			raise Exception('{} does not contain key "{}"'.format(d,k))
 
+@app.route('/api/register/', methods=['POST'])
+def api_register():
+	#this is where all the database shit will take place
+	pass
+
 @app.route('/api/login/', methods=['POST'])
 def api_login():
+	#fetch from database and get user, basic checks for correct credientials
+	#if no account made a redirect to register
 	try:
 		print(request.form)
 		validate(request.form, ['username', 'password'])
