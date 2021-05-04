@@ -44,7 +44,8 @@ class register extends React.Component {
 					
 			</form>
 
-
+				}}
+	}
 
 
 
@@ -89,3 +90,11 @@ class login extends React.Component {
 					this.sendLoginRequest();
 				}}>Login</button>
 			</form>
+	}
+
+
+class home extends React.Component {
+	render(){
+	
+	}
+}
