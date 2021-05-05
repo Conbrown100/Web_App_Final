@@ -21,8 +21,8 @@ class Login extends React.Component {
 	}
 
 	sendToRegister(){
-		this.props.OnRegister();
-	}	
+		this.props.onRegister();
+	}
 
 	render() {
 		return (
@@ -42,7 +42,7 @@ class Login extends React.Component {
 					evt.preventDefault();
 					this.sendLoginRequest();
 				}}>Login</button>
-				<button id="register-button" onClick={{ (evt) => {
+				<button id="register-button" onClick={ (evt) => {
 					evt.preventDefault();
 					this.sendToRegister();
 				}}>Register</button>
@@ -62,7 +62,7 @@ class Register extends React.Component {
 		.then(
 			(result) =>{
 				if (result == 'ok') {
-					this.props.onRegister();
+					this.props.onLogin();
 				} else {
 					alert('Username already exists.');
 				}
@@ -112,9 +112,16 @@ class App extends React.Component {
 		});
 
 	}
-
+	onRegister(){
+		this.setState({
+			view: 'register'
+		});
+	}
 	render(){
 		let component = <Login onLogin={ () => this.onLogin() } />;
+		if (this.state.view == 'register'){
+			component = <Register />;
+		}
 		if (this.state.view == 'home'){
 			component = <Home />;
 		}
