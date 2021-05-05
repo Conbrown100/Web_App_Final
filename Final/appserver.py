@@ -34,22 +34,22 @@ def main():
 @app.route('/api/login/', methods=['POST'])
 def api_login():
 	
-	#profile = Profile.query.filter_by(username.request.form['username']).first()
-	
-	#if profile and profile.password == request.form['password']:
-	#	session['id'] = profile.id
-	#	return 'ok'
-    try:
-        print(request.form)
-        validate(request.form, ['username', 'password'])
-        u, p = request.form['username'], request.form['password']
-        if u == 'conner' and p == 'b':
-            session['username'] = u
-            return 'ok'
-        else:
-            return 'fail'
-    except Exception as e:
-        return str(e), 400
+	profile = Profile.query.filter_by(username.request.form['username']).first()
+
+	if profile and profile.password == request.form['password']:
+		session['id'] = profile.id
+		return 'ok'
+   # try:
+    #    print(request.form)
+     #   validate(request.form, ['username', 'password'])
+      #  u, p = request.form['username'], request.form['password']
+       # if u == 'conner' and p == 'b':
+        #    session['username'] = u
+        #    return 'ok'
+       # else:
+       #     return 'fail'
+   # except Exception as e:
+   #     return str(e), 400
 
 
 

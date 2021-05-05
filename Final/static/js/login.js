@@ -42,7 +42,7 @@ class Login extends React.Component {
 					evt.preventDefault();
 					this.sendLoginRequest();
 				}}>Login</button>
-				<button id="register-button" onClick={{ (evt) => {
+				<button id="register-button" onClick={ (evt) => {
 					evt.preventDefault();
 					this.sendToRegister();
 				}}>Register</button>
