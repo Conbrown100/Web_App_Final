@@ -41,9 +41,6 @@ class Login extends React.Component {
 				<button id="register-button" onClick={(evt) => {
 					evt.preventDefault();
 					console.log("register was clicked");
-					let component = <Register onRegister={ () => this.onRegister() } />;
-					this.props.onRegister();
-					
 				}}>Register</button>
 			</form>
 		);
@@ -90,6 +87,11 @@ class Register extends React.Component {
 					evt.preventDefault();
 					this.sendRegisterRequest();
 				}}>Register</button>
+				
+				<button id="login-button" onClick={(evt) => {
+					evt.preventDefualt();			
+					this.props.onLogin();		
+				}}>Login</button>
 			</form>
 
 		);			
@@ -102,24 +104,24 @@ class App extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			view: 'login'
+			view: 'register'
 		};
 	}
 	onLogin(){
 		this.setState({
-			view: 'home'
+			view: 'login'
 		});
 
 	}
 	onRegister(){
 		this.setState({
-			view: 'register'
+			view: 'home'
 		});
 	}
 	render(){
-		let component = <Login onLogin={ () => this.onLogin() } />;
-		if (this.state.view == 'register'){
-			component = <Register />
+		let component = <Register onLogin={ () => this.onLogin() } />;
+		if (this.state.view == 'login'){	
+			component = <Login onRegister={ () => this.onRegister() } />
 		}
 		if (this.state.view == 'home'){
 			component = <Home />;

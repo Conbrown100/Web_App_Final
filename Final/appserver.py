@@ -58,14 +58,13 @@ def api_register():
 	#this is where all the database shit will take place
 	username = request.form['username']
 	password = request.form['password']
-	email = request.form['email']
 	
-	if username == '' or password == '' or email == '':
+	if username == '' or password == '':
 		return 'fail'
 	if db.session.query(Profile.id).filter_by(username=username).first() is not None:
 		return 'fail'
 	else:
-		profile = Profile(username=username, password=password, email=email)
+		profile = Profile(username=username, password=password)
 		db.session.add(profile)
 		db.session.commit()
 		return 'ok'
