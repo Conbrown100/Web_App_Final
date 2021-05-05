@@ -12,6 +12,7 @@ from appserver import db
 
 # Example class
 class User(db.Model):
+<<<<<<< HEAD
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(80), unique=True, nullable=False)
 	password = db.Column(db.String(42), unique=False, nullable=False)
@@ -55,3 +56,18 @@ class HPC(db.Model):
 			'id' self.id,
 			'profile': self.profile.serialize(),
 		}
+=======
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(16), unique=True, nullable=False)
+    password = db.Column(db.String(16), unique=False, nullable=False)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'password': self.password,
+        }
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+>>>>>>> 0fb5eb9c2973827a968d3a3b5018f2acd1274b2b
