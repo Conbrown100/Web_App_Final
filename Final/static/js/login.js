@@ -20,10 +20,6 @@ class Login extends React.Component {
 		);
 	}
 
-	sendToRegister(){
-		this.props.onRegister();
-	}
-
 	render() {
 		return (
 			<form id="login-form">
@@ -42,9 +38,12 @@ class Login extends React.Component {
 					evt.preventDefault();
 					this.sendLoginRequest();
 				}}>Login</button>
-				<button id="register-button" onClick={ (evt) => {
+				<button id="register-button" onClick={(evt) => {
 					evt.preventDefault();
-					this.sendToRegister();
+					console.log("register was clicked");
+					let component = <Register onRegister={ () => this.onRegister() } />;
+					this.props.onRegister();
+					
 				}}>Register</button>
 			</form>
 		);
@@ -120,7 +119,7 @@ class App extends React.Component {
 	render(){
 		let component = <Login onLogin={ () => this.onLogin() } />;
 		if (this.state.view == 'register'){
-			component = <Register />;
+			component = <Register />
 		}
 		if (this.state.view == 'home'){
 			component = <Home />;
