@@ -16,8 +16,14 @@ class Login extends React.Component {
 			},
 			(error) => {
 				alert('General login error');
-			}
+			};
 		);
+	}
+
+	sendToRegister(){
+		this.props.onRegister();
+		});
+
 	}
 
 	render() {
@@ -40,10 +46,7 @@ class Login extends React.Component {
 				}}>Login</button>
 				<button id="register-button" onClick={(evt) => {
 					evt.preventDefault();
-					console.log("register was clicked");
-					let component = <Register onRegister={ () => this.onRegister() } />;
-					this.props.onRegister();
-					
+					this.sendToRegister();
 				}}>Register</button>
 			</form>
 		);
@@ -96,12 +99,16 @@ class Register extends React.Component {
 	}
 }
 
-
+class Home extends React.component {
+	render() {
+		return (<p> HOME PAGE FOUND BABY! </p>);
+	}
+}
 
 class App extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {
+		this.setstate = {
 			view: 'login'
 		};
 	}
@@ -117,6 +124,9 @@ class App extends React.Component {
 		});
 	}
 	render(){
+		let component = <Login onRegister={ () => this.onRegister() } />
+
+
 		let component = <Login onLogin={ () => this.onLogin() } />;
 		if (this.state.view == 'register'){
 			component = <Register />
