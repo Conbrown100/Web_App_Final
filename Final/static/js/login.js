@@ -46,7 +46,11 @@ class Login extends React.Component {
 				}}>Login</button>
 				<button id="register-button" onClick={(evt) => {
 					evt.preventDefault();
+<<<<<<< HEAD
 					this.sendToRegister();
+=======
+					console.log("register was clicked");
+>>>>>>> 7484a862475f097b2a7d84d91204087eed88cf33
 				}}>Register</button>
 			</form>
 		);
@@ -93,6 +97,11 @@ class Register extends React.Component {
 					evt.preventDefault();
 					this.sendRegisterRequest();
 				}}>Register</button>
+				
+				<button id="login-button" onClick={(evt) => {
+					evt.preventDefualt();			
+					this.props.onLogin();		
+				}}>Login</button>
 			</form>
 
 		);			
@@ -108,28 +117,39 @@ class Home extends React.component {
 class App extends React.Component {
 	constructor(props){
 		super(props);
+<<<<<<< HEAD
 		this.setstate = {
 			view: 'login'
+=======
+		this.state = {
+			view: 'register'
+>>>>>>> 7484a862475f097b2a7d84d91204087eed88cf33
 		};
 	}
 	onLogin(){
 		this.setState({
-			view: 'home'
+			view: 'login'
 		});
 
 	}
 	onRegister(){
 		this.setState({
-			view: 'register'
+			view: 'home'
 		});
 	}
 	render(){
+<<<<<<< HEAD
 		let component = <Login onRegister={ () => this.onRegister() } />
 
 
 		let component = <Login onLogin={ () => this.onLogin() } />;
 		if (this.state.view == 'register'){
 			component = <Register />
+=======
+		let component = <Register onLogin={ () => this.onLogin() } />;
+		if (this.state.view == 'login'){	
+			component = <Login onRegister={ () => this.onRegister() } />
+>>>>>>> 7484a862475f097b2a7d84d91204087eed88cf33
 		}
 		if (this.state.view == 'home'){
 			component = <Home />;
