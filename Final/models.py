@@ -25,3 +25,23 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+# Example class
+class Hpc(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    status = db.Column(db.String(16), unique=False, nullable=False)
+    reserveLen = db.Column(db.Integer, unique=False, nullable=True)
+    timeStamp = db.Column(db.Integer, unique=False, nullable=True)
+    user_id = db.Column(db.Integer, unique=False, nullable=True)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'status': self.status,
+            'reserveLen': self.reserveLen,
+            'timeStamp': self.timeStamp,
+            'user_id': self.user_id,
+        }
+
+    def __repr__(self):
+        return '<Hpc {}>'.format(self.id)

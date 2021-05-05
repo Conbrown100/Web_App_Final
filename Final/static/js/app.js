@@ -29,15 +29,15 @@ class Register extends React.Component {
             <div>
                 <form id="register-form">
                     <input
-                      type="text"
-                      name="username"
-                      id="username"
-                      placeholder="username" />
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="username" />
                     <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="password" />
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="password" />
                     <br />
                     <button id="register-button" onClick={(evt) => {
                         evt.preventDefault();
@@ -87,15 +87,15 @@ class Login extends React.Component {
             <div>
                 <form id="login-form">
                     <input
-                      type="text"
-                      name="username"
-                      id="username"
-                      placeholder="username" />
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="username" />
                     <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="password" />
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="password" />
                     <br />
                     <button id="login-button" onClick={(evt) => {
                         evt.preventDefault();
@@ -113,26 +113,47 @@ class Login extends React.Component {
     }
 }
 
-class Avengers extends React.Component {
+class Hpcs extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            avengers: [],
+            hpcs: [],
             isLoaded: false,
             error: null 
         };
     }
 
     componentDidMount() {
-        fetch('/api/avengers/')
+        fetch('/api/hpcs/')
         .then(result => result.json())
         .then(
             (result) => {
                 this.setState({
                     isLoaded: true,
-                    avengers: result
+                    hpcs: result
                 });                
+            },
+            (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error: error
+                });
+            }
+        );
+        setInterval(this.updateHpcs, 30000);
+    }
+
+    updateHpcs(){
+        console.log("update");
+        fetch('/api/hpcs/')
+        .then(result => result.json())
+        .then(
+            (result) => {
+                this.setState({
+                    isLoaded: true,
+                    hpcs: result
+                });
             },
             (error) => {
                 this.setState({
@@ -143,19 +164,85 @@ class Avengers extends React.Component {
         );
     }
 
+    reserveHpc(id, length){
+        const formData = new FormData();
+        formData.append("id", id);
+        formData.append("length", length);
+        fetch('/api/reserve/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(result => result.text())
+        .then(
+            (result) => {
+                if (result == 'ok') { 
+                    alert('Hpc reserved.');
+                } else {
+                    alert('Hpc has already been reserved.');
+                }
+            },
+            (error) => {
+                alert('Error. Could not reserve hpc.');
+            }
+        );
+
+    }
+
     render() {
         if (this.state.error) {
-            return <div>Error! Avengers must have gotten snapped by Thanos!</div>
+            return <div>Error! Could not fetch data on hpcs!</div>
         } else if (!this.state.isLoaded) {
-            return <div>Waiting for Avengers to assemble...</div>
+            return <div>Waiting for page to load...</div>
         } else {
             return (
-                <div className="avengers">
-                    <h1>Avengers Assembled!</h1>
+                <div className="hpcs">
+                    <h1>Status of hpcs</h1>
                     <ul>
-                        {this.state.avengers.map(hero => (
-                        <li key={hero}>
-                            {hero}
+                        {this.state.hpcs.map(hpc => (
+                        <li key={hpc.id}>
+                            <p>hpc{hpc.id}</p>
+                            <p>status: {hpc.status}</p>
+                            <div className="dropdown">
+                                <button 
+                                    className="btn btn-primary dropdown-toggle" 
+                                    type="button" 
+                                    data-toggle="dropdown">
+                                    Reserve
+                                </button>
+                                <ul className="dropdown-menu">
+                                    <li><a className="dropdown-item"
+                                           onClick={(evt) => {
+                                               evt.preventDefault();
+                                               this.reserveHpc(hpc.id, 2);
+                                           }}
+                                           href="#">2 hrs</a>
+                                    </li>
+                                    <li><a className="dropdown-item" 
+                                           onClick={(evt) => {
+                                               evt.preventDefault();
+                                               this.reserveHpc(hpc.id, 4);
+                                           }}
+                                           href="#">4 hrs</a>
+                                    </li>
+                                    <li><a className="dropdown-item"
+                                           onClick={(evt) => {
+                                               evt.preventDefault();
+                                               this.reserveHpc(hpc.id, 12);
+                                           }}
+
+                                           href="#">
+                                           12 hrs</a>
+                                    </li>
+                                    <li><a className="dropdown-item" 
+                                           onClick={(evt) => {
+                                               evt.preventDefault();
+                                               this.reserveHpc(hpc.id, 24);
+                                           }}
+                                           href="#">
+                                           24 hrs</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         ))}
                     </ul>
@@ -176,7 +263,7 @@ class App extends React.Component {
 
     onLogin() {
         this.setState({
-            view: 'avengers'
+            view: 'hpcs'
         });
     }
 
@@ -198,8 +285,8 @@ class App extends React.Component {
         if (this.state.view == 'register') {
             component = <Register loginView={ () => this.loginView() } />;
         }
-        if (this.state.view == 'avengers') {
-            component = <Avengers />;
+        if (this.state.view == 'hpcs') {
+            component = <Hpcs />;
         }
         return (
             <div className="app">
