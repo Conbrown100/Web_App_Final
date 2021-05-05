@@ -1,4 +1,6 @@
-class Register extends React.Component {
+import 'css/site.css'
+
+class Registeri extends React.Component {
     sendRegisterRequest() {
         let formData = new FormData(document.getElementById('register-form'));
         fetch('/api/register/', {
