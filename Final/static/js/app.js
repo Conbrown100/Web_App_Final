@@ -26,7 +26,8 @@ class Register extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="form-container"> 
+                <h2>Register</h2>
                 <form id="register-form">
                     <input
                         type="text"
@@ -39,16 +40,23 @@ class Register extends React.Component {
                         id="password"
                         placeholder="password" />
                     <br />
-                    <button id="register-button" onClick={(evt) => {
-                        evt.preventDefault();
-                        this.sendRegisterRequest();
-                    }}>Register</button>
+                    <button id="register-button"
+                            className="btn btn-primary"
+                            onClick={(evt) => {
+                                evt.preventDefault();
+                                this.sendRegisterRequest();
+                            }}>
+                            Register
+                    </button>
                 </form>
                 <p>Already have an account? 
-                    <a href="#" onClick={(evt) => {
-                        evt.preventDefault();
-                        this.goToLogin();
-                    }}>Login</a>
+                    <a href="#" 
+                        onClick={(evt) => {
+                           evt.preventDefault();
+                           this.goToLogin();
+                        }}>
+                        Login
+                    </a>
                 </p>
             </div>
 
@@ -79,12 +87,13 @@ class Login extends React.Component {
     }
 
     goToRegister(){
-      this.props.registerView();
+        this.props.registerView();
     }
 
     render() {
         return (
-            <div>
+            <div className="form-container">
+                <h2>Login</h2>
                 <form id="login-form">
                     <input
                         type="text"
@@ -97,16 +106,23 @@ class Login extends React.Component {
                         id="password"
                         placeholder="password" />
                     <br />
-                    <button id="login-button" onClick={(evt) => {
-                        evt.preventDefault();
-                        this.sendLoginRequest();
-                    }}>Login</button>
+                    <button id="login-button" 
+                            className="btn btn-primary" 
+                            onClick={(evt) => {
+                                evt.preventDefault();
+                                this.sendLoginRequest();
+                            }}>
+                            Login
+                    </button>
                 </form>
                 <p>Need an account?  
-                    <a href="#" onClick={(evt) => {
-                            evt.preventDefault();
-                            this.goToRegister();
-                    }}>Register</a>
+                    <a href="#" 
+                       onClick={(evt) => {
+                           evt.preventDefault();
+                           this.goToRegister();
+                       }}>
+                       Register
+                    </a>
                 </p>
             </div>
         );
@@ -122,6 +138,8 @@ class Hpcs extends React.Component {
             isLoaded: false,
             error: null 
         };
+        this.updateHpcs = this.updateHpcs.bind(this);
+        this.intervalId = 0;
     }
 
     componentDidMount() {
@@ -141,8 +159,26 @@ class Hpcs extends React.Component {
                 });
             }
         );
-        setInterval(this.updateHpcs, 30000);
+        this.intervalId = setInterval(this.updateHpcs, 30000);
     }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
+    }
+
+    logout(){
+        fetch('/api/logout/')
+        .then(result => result.text())
+        .then(
+            (result) => {
+                this.props.loginView();
+            },
+            (error) => { 
+                this.props.loginView();
+            }
+        );
+    }
+
 
     updateHpcs(){
         console.log("update");
@@ -168,7 +204,7 @@ class Hpcs extends React.Component {
         const formData = new FormData();
         formData.append("id", id);
         formData.append("length", length);
-        fetch('/api/reserve/', {
+        fetch('/api/hpc/reserve/', {
             method: 'POST',
             body: formData
         })
@@ -177,12 +213,39 @@ class Hpcs extends React.Component {
             (result) => {
                 if (result == 'ok') { 
                     alert('Hpc reserved.');
+                    this.updateHpcs();
                 } else {
                     alert('Hpc has already been reserved.');
+                    this.updateHpcs(); 
                 }
             },
             (error) => {
                 alert('Error. Could not reserve hpc.');
+            }
+        );
+
+    }
+
+    cancelReservation(id){
+        const formData = new FormData();
+        formData.append("id", id);
+        fetch('/api/hpc/cancel/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(result => result.text())
+        .then(
+            (result) => {
+                if (result == 'ok') {
+                    alert('Reservation cancelled.');
+                    this.updateHpcs(); 
+                } else {
+                    alert('Not yours to cancel.');
+                    this.updateHpcs(); 
+                }
+            },
+            (error) => {
+                alert('Error. Could not cancel reservation.');
             }
         );
 
@@ -197,11 +260,21 @@ class Hpcs extends React.Component {
             return (
                 <div className="hpcs">
                     <h1>Status of hpcs</h1>
-                    <ul>
+                    <ul id="hpc-list">
+                        <button type="button"
+                                className="btn-logout btn btn-success"
+                                onClick={(evt) => {
+                                    evt.preventDefault();
+                                    this.logout();
+                                }}
+                                >Logout
+                        </button>
+
                         {this.state.hpcs.map(hpc => (
-                        <li key={hpc.id}>
-                            <p>hpc{hpc.id}</p>
-                            <p>status: {hpc.status}</p>
+                        <li key={hpc.id} className="hpc-container">
+                            <h3>hpc{hpc.id}</h3>
+                            <h5>status: {hpc.status}</h5>
+                            <h5>owner: {hpc.owner}</h5>
                             <div className="dropdown">
                                 <button 
                                     className="btn btn-primary dropdown-toggle" 
@@ -243,6 +316,14 @@ class Hpcs extends React.Component {
                                     </li>
                                 </ul>
                             </div>
+                            <button type="button"
+                                    className="cancel-res btn btn-secondary" 
+                                    onClick={(evt) => {
+                                      evt.preventDefault();
+                                      this.cancelReservation(hpc.id);
+                                    }}
+                                    >Cancel Reservation
+                            </button>
                         </li>
                         ))}
                     </ul>
@@ -286,7 +367,7 @@ class App extends React.Component {
             component = <Register loginView={ () => this.loginView() } />;
         }
         if (this.state.view == 'hpcs') {
-            component = <Hpcs />;
+            component = <Hpcs loginView={ () => this.loginView() } />;
         }
         return (
             <div className="app">

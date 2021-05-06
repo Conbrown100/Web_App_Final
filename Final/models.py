@@ -33,6 +33,7 @@ class Hpc(db.Model):
     reserveLen = db.Column(db.Integer, unique=False, nullable=True)
     timeStamp = db.Column(db.Integer, unique=False, nullable=True)
     user_id = db.Column(db.Integer, unique=False, nullable=True)
+    owner = db.Column(db.String(16), unique=False, nullable=True)
 
     def serialize(self):
         return {
@@ -41,6 +42,7 @@ class Hpc(db.Model):
             'reserveLen': self.reserveLen,
             'timeStamp': self.timeStamp,
             'user_id': self.user_id,
+            'owner': self.owner,
         }
 
     def __repr__(self):

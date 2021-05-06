@@ -16,6 +16,12 @@ db = SQLAlchemy(app)
 
 from models import User, Hpc
 
+def get_current_user():
+    if 'id' in session:
+        return User.query.get(session['id'])
+
+    return None
+
 def validate(d, keys):
     for k in keys:
         if k not in d:
@@ -45,7 +51,6 @@ def index():
 @app.route('/api/register/', methods=['POST'])
 def api_register():
     try:
-        print(request.form)
         validate(request.form, ['username', 'password'])
 
         u, p = request.form['username'], request.form['password']
@@ -64,7 +69,6 @@ def api_register():
 @app.route('/api/login/', methods=['POST'])
 def api_login():
     try:
-        print(request.form)
         validate(request.form, ['username', 'password'])
 
         u, p = request.form['username'], request.form['password']
@@ -79,6 +83,19 @@ def api_login():
         return str(e), 400
 
 
+@app.route('/api/logout/', methods=['GET'])
+def api_logout():
+    try:
+        validate(session, ['id'])
+        
+        if 'id' in session:
+            del session['id']
+        return 'ok'
+
+    except Exception as e:
+        return str(e), 400
+
+
 @app.route('/api/hpcs/', methods=['GET'])
 def api_hpcs():
     try:
@@ -86,24 +103,44 @@ def api_hpcs():
      
         hpcs = Hpc.query.all()
         hpcs = list(map(lambda hpc: hpc.serialize(), hpcs))
-        return jsonify(hpcs)           
-        #return jsonify(['Hpc1', 'Hpc2', 'Hpc3'])
+        return jsonify(hpcs) 
 
     except Exception as e:
         return 'Not authenticated', 403
 
 
-@app.route('/api/reserve/', methods=['POST'])
+@app.route('/api/hpc/reserve/', methods=['POST'])
 def api_reserve():
     try:
         print(request.form)
         validate(request.form, ['id', 'length'])
 
-        i, l = request.form['id'], request.form['length']
+        hpcId, l = request.form['id'], request.form['length']
+        currUser = get_current_user()
+        
+        if db.session.query(Hpc.status).filter_by(id=hpcId).first()[0] == "open":
+            db.session.query(Hpc).filter_by(id=hpcId).update({"status":"reserved"})
+            db.session.query(Hpc).filter_by(id=hpcId).update({"user_id":currUser.id})
+            db.session.query(Hpc).filter_by(id=hpcId).update({"owner":currUser.username})
+            db.session.commit()
+            return 'ok'
+        else:
+            return 'fail'
 
-        if db.session.query(Hpc.status).filter_by(id=i).first()[0] == "open":
-            db.session.query(Hpc).filter_by(id=i).update({"status":"reserved"})
-            db.session.query(Hpc).filter_by(id=i).update({"user_id":session["id"]})
+    except Exception as e:
+        return str(e), 400
+
+@app.route('/api/hpc/cancel/', methods=['POST'])
+def api_cancel():
+    try:
+        validate(request.form, ['id'])
+
+        hpcId = request.form['id']
+        
+        if db.session.query(Hpc.user_id).filter_by(id=hpcId).first()[0] == session["id"]:
+            db.session.query(Hpc).filter_by(id=hpcId).update({"status":"open"})
+            db.session.query(Hpc).filter_by(id=hpcId).update({"user_id":None})
+            db.session.query(Hpc).filter_by(id=hpcId).update({"owner":None})
             db.session.commit()
             return 'ok'
         else:
